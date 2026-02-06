@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Penjual | Rompas.co</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary: #8A2BE2; /* Ungu Utama */
+            --primary-hover: #7b27cc;
+            --primary-light: rgba(138, 43, 226, 0.1);
+            --bg-body: #0f0f12; /* Latar Belakang Gelap */
+            --bg-card: #1a1a1f; /* Latar Belakang Card/Sidebar */
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border: #2e2e36;
+            --success: #00c851;
+            --warning: #ffbb33;
+            --danger: #ff4444;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --transition: all 0.3s ease;
+        }
+
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-size: 14px;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- LAYOUT WRAPPER --- */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .menu-item {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item i {
+            font-size: 1.25rem;
+            margin-right: 12px;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            color: var(--text-main);
+            background: var(--primary-light);
+            border-left-color: var(--primary);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        /* --- TOP BAR --- */
+        .topbar {
+            height: var(--header-height);
+            background-color: rgba(15, 15, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .toggle-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none; /* Sembunyikan di desktop */
+            color: var(--text-main);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name { font-weight: 600; display: block; }
+        .user-role { font-size: 0.8rem; color: var(--text-muted); }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--danger);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        /* --- CONTENT PADDING --- */
+        .content-body {
+            padding: 30px;
+        }
+
+        /* --- STAT CARDS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* --- CHART SECTION --- */
+        .chart-section {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* --- TABLE SECTION --- */
+        .table-section {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow-x: auto; /* Scroll horizontal untuk tabel */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        
+        tr:hover td { background-color: rgba(255,255,255,0.02); }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-success { background: rgba(0, 200, 81, 0.15); color: var(--success); }
+        .status-pending { background: rgba(255, 187, 51, 0.15); color: var(--warning); }
+        .status-failed { background: rgba(255, 68, 68, 0.15); color: var(--danger); }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: #333;
+            object-fit: cover;
+        }
+
+        /* --- OVERLAY MOBILE --- */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.active { display: block; opacity: 1; }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%); /* Sembunyikan sidebar ke kiri */
+            }
+
+            .sidebar.active {
+                transform: translateX(0); /* Munculkan sidebar */
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .toggle-btn {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content-body {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr; /* Stack card ke bawah */
+            }
+
+            .user-info { display: none; } /* Hemat ruang di mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="wrapper">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">rompas<span>.co</span></div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active">
+                    <i class='bx bxs-dashboard'></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item">
+                    <i class='bx bxs-package'></i>
+                    <span>Produk Saya</span>
+                </li>
+                <li class="menu-item">
+                    <i class='bx bx-transfer'></i>
+                    <span>Transaksi</span>
+                </li>
+                <li class="menu-item">
+                    <i class='bx bxs-report'></i>
+                    <span>Laporan</span>
+                </li>
+                <li class="menu-item" style="margin-top: auto;">
+                    <i class='bx bxs-cog'></i>
+                    <span>Pengaturan</span>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="topbar">
+                <div class="toggle-btn" id="toggleSidebar">
+                    <i class='bx bx-menu'></i>
+                </div>
+
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Rizky Rompas</span>
+                        <span class="user-role">Super Seller</span>
+                    </div>
+                    <img src="https://placehold.net/40x40/8A2BE2/ffffff?text=RR" style="border-radius: 50%;" alt="User">
+                    <button class="btn-logout" onclick="alert('Logout clicked')">
+                        <i class='bx bx-log-out'></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Rp 12.5jt</h3>
+                            <p>Total Penjualan</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class='bx bx-wallet'></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>142</h3>
+                            <p>Total Transaksi</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class='bx bx-shopping-bag'></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>85</h3>
+                            <p>Produk Terjual</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class='bx bx-check-circle'></i>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="chart-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Analisis Penjualan</h2>
+                        <select style="background:var(--bg-body); color:white; border:1px solid var(--border); padding:5px; border-radius:4px;">
+                            <option>30 Hari Terakhir</option>
+                            <option>7 Hari Terakhir</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="table-section">
+                    <h2 class="section-title" style="margin-bottom: 20px;">Transaksi Terbaru</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Produk</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-7721</td>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="https://placehold.net/40x40/2e2e36/8A2BE2?text=AI" class="product-thumb">
+                                        <span>AI Prompt Pack</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>budi@gmail.com</div>
+                                    <small style="color:var(--text-muted)">0812-3456-xxxx</small>
+                                </td>
+                                <td><span class="status-badge status-success">Berhasil</span></td>
+                                <td>Rp 150.000</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>#ORD-7720</td>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="https://placehold.net/40x40/2e2e36/8A2BE2?text=EB" class="product-thumb">
+                                        <span>E-Book Freelance</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>siti@yahoo.com</div>
+                                    <small style="color:var(--text-muted)">0813-9999-xxxx</small>
+                                </td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>Rp 99.000</td>
+                            </tr>
+
+                             <tr>
+                                <td>#ORD-7719</td>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="https://placehold.net/40x40/2e2e36/8A2BE2?text=VC" class="product-thumb">
+                                        <span>Frontend Course</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>alex@indo.net</div>
+                                    <small style="color:var(--text-muted)">0811-2222-xxxx</small>
+                                </td>
+                                <td><span class="status-badge status-failed">Gagal</span></td>
+                                <td>Rp 299.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <footer style="margin-top: 30px; color: var(--text-muted); font-size: 0.8rem; text-align: center;">
+                    &copy; 2026 Rompas.co Dashboard System
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. SIDEBAR TOGGLE LOGIC (MOBILE) ---
+            const toggleBtn = document.getElementById('toggleSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+
+            toggleBtn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+
+            // --- 2. CHART.JS CONFIGURATION ---
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // Konfigurasi Gradien Ungu
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(138, 43, 226, 0.5)'); // Ungu pekat di atas
+            gradient.addColorStop(1, 'rgba(138, 43, 226, 0)');   // Transparan di bawah
+
+            const salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Penjualan (IDR)',
+                        data: [150000, 300000, 450000, 200000, 600000, 850000, 900000],
+                        backgroundColor: gradient,
+                        borderColor: '#8A2BE2',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#8A2BE2',
+                        fill: true,
+                        tension: 0.4 // Membuat garis melengkung halus
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#a0a0a0' } // Warna teks legend
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#2e2e36' // Warna garis grid horizontal
+                            },
+                            ticks: { color: '#a0a0a0' }
+                        },
+                        x: {
+                            grid: { display: false }, // Hilangkan grid vertikal agar bersih
+                            ticks: { color: '#a0a0a0' }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

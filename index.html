@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompas.co | Produk Digital Premium</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script type="text/javascript"
+            src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="Mid-client-dUZspMXFVKeGPLH5"></script>
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #8A2BE2; /* BlueViolet */
+            --primary-hover: #7b27cc;
+            --primary-glow: rgba(138, 43, 226, 0.4);
+            --bg-dark: #0f0f12;
+            --bg-card: #1a1a1f;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border: #2e2e36;
+            --shadow: 0 8px 24px rgba(0,0,0,0.4);
+            --radius: 12px;
+            --container-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; border-radius: var(--radius); }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+        
+        .section-title span { color: var(--primary); }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background-color: rgba(15, 15, 18, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            min-height: 80vh;
+        }
+
+        .hero-content { flex: 1; }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .hero-buttons { display: flex; gap: 15px; }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features { padding: 80px 0; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-title { font-size: 1.2rem; margin-bottom: 10px; }
+        .feature-desc { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- PRODUCTS SECTION --- */
+        .products { padding: 80px 0; background: #141419; }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .product-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+
+        .product-title { font-size: 1.25rem; margin-bottom: 10px; }
+        .product-desc { color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; font-size: 0.95rem; }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* --- FAQ SECTION --- */
+        .faq { padding: 80px 0; }
+
+        .faq-item {
+            background: var(--bg-card);
+            margin-bottom: 15px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item summary::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+        .faq-item[open] summary::after { content: '-'; }
+
+        .faq-item p {
+            padding: 0 20px 20px 20px;
+            color: var(--text-muted);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+
+        .footer-text { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- MODAL CHECKOUT --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--border);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .checkout-form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-muted); }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .product-summary {
+            background: var(--bg-dark);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplified for demo */
+            .hamburger { display: block; }
+            .hero { flex-direction: column-reverse; text-align: center; padding: 40px 0; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-buttons { justify-content: center; }
+            .hero-desc { margin: 0 auto 30px auto; }
+        }
+
+        /* --- LOADING ANIMATION --- */
+        .spinner {
+            display: none;
+            width: 20px; height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">rompas<span>.co</span></a>
+            <div class="hamburger">☰</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#products">Produk</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero container">
+        <div class="hero-content">
+            <h1 class="hero-title">Aset Digital Premium untuk Kreator Modern</h1>
+            <p class="hero-desc">Tingkatkan produktivitas dan kualitas karyamu dengan koleksi produk digital eksklusif kami. Instan download, akses selamanya.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary">Lihat Produk</a>
+                <a href="#products" class="btn btn-outline">Pelajari Lebih</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://img.freepik.com/premium-photo/computer-setup-with-purple-light-dark-background-games-transmission-modern-equipment-modern-gaming-pc-desk-with-keyboard-mouse-monitor_143683-32420.jpg" alt="Mockup Produk">
+        </div>
+    </header>
+
+    <section class="container features">
+        <h2 class="section-title">Mengapa <span>Memilih Kami?</span></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 class="feature-title">Kualitas Premium</h3>
+                <p class="feature-desc">Dikurasi oleh profesional untuk memastikan standar tertinggi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">♾️</div>
+                <h3 class="feature-title">Sekali Beli, Selamanya</h3>
+                <p class="feature-desc">Tidak ada biaya langganan. Akses update gratis selamanya.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Ramah Pemula</h3>
+                <p class="feature-desc">Dilengkapi panduan lengkap cara penggunaan aset.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Produk <span>Unggulan</span></h2>
+            <div class="products-grid">
+                
+                <div class="product-card">
+                    <img src="https://packmedia54032-staging.s3.amazonaws.com/public/mitchweb333midjourney2.webp" alt="AI Prompt Pack" class="product-img">
+                    <div class="product-body">
+                        <h3 class="product-title">Ultimate AI Prompt Pack</h3>
+                        <p class="product-desc">Kumpulan 1000+ prompt untuk Midjourney dan ChatGPT. Tingkatkan hasil output AI Anda.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 150.000</span>
+                            <button class="btn btn-primary btn-buy" 
+                                data-id="PROD-01" 
+                                data-name="Ultimate AI Prompt Pack" 
+                                data-price="150000">Beli</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://hoodzpahdesign.com/wp-content/uploads/2018/05/Freelance_and_business_and_stuff_ebook_hoodzpah_2-1365x2048.jpg" alt="E-Book Guide" class="product-img">
+                    <div class="product-body">
+                        <h3 class="product-title">E-Book: Mastering Freelance</h3>
+                        <p class="product-desc">Panduan langkah demi langkah mendapatkan klien internasional pertama Anda dari nol.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 99.000</span>
+                            <button class="btn btn-primary btn-buy" 
+                                data-id="PROD-02" 
+                                data-name="E-Book: Mastering Freelance" 
+                                data-price="99000">Beli</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <img src="https://static.skillshare.com/uploads/video/thumbnails/c3d526eac97509ae5f23090cfd18b8d5/original"" alt="Video Course" class="product-img">
+                    <div class="product-body">
+                        <h3 class="product-title">Frontend Mastery Course</h3>
+                        <p class="product-desc">Video course belajar HTML, CSS, dan JS Vanilla untuk membangun website modern.</p>
+                        <div class="product-footer">
+                            <span class="product-price">Rp 299.000</span>
+                            <button class="btn btn-primary btn-buy" 
+                                data-id="PROD-03" 
+                                data-name="Frontend Mastery Course" 
+                                data-price="299000">Beli</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="container faq">
+        <h2 class="section-title">Pertanyaan <span>Umum</span></h2>
+        <div class="faq-item">
+            <details>
+                <summary>Bagaimana cara saya menerima produknya?</summary>
+                <p>Setelah pembayaran berhasil, link download akan dikirimkan otomatis ke email yang Anda daftarkan.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary>Apakah produk bisa dikembalikan (refund)?</summary>
+                <p>Karena sifat produk digital, kami tidak melayani refund kecuali jika file terbukti rusak/corrupt.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary>Apakah saya perlu software khusus?</summary>
+                <p>Sebagian besar produk kami berupa file umum (PDF, MP4, TXT) yang bisa dibuka di perangkat standar.</p>
+            </details>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="logo" style="margin-bottom: 10px;">rompas<span>.co</span></p>
+            <p class="footer-text">&copy; 2026 Rompas.co. All rights reserved.</p>
+            <p class="footer-text" style="font-size: 0.8rem; margin-top: 5px;">Built with ❤️ using Vanilla Code.</p>
+        </div>
+    </footer>
+
+    <div id="checkoutModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h3 style="margin-bottom: 15px;">Checkout</h3>
+            
+            <div class="product-summary">
+                <small style="color: var(--text-muted)">Produk:</small>
+                <div id="summaryName" style="font-weight: 600;">-</div>
+                <div id="summaryPrice" style="color: var(--primary); font-weight: bold;">-</div>
+            </div>
+
+            <form id="paymentForm" class="checkout-form">
+                <input type="hidden" id="orderId" name="order_id">
+                <input type="hidden" id="grossAmount" name="gross_amount">
+                <input type="hidden" id="prodId" name="item_id">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="nama@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Nomor HP</label>
+                    <input type="tel" id="phone" required placeholder="0812xxxx">
+                </div>
+
+                <button type="submit" id="payButton" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                    Bayar Sekarang <span class="spinner"></span>
+                </button>
+                <small style="text-align: center; color: var(--text-muted); font-size: 0.75rem;">
+                    Secure payment by Midtrans Sandbox
+                </small>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- KONFIGURASI MIDTRANS & KUNCI API ---
+            // PENTING: Dalam aplikasi nyata, REQUEST token harus dilakukan di BACKEND.
+            // Kode ini hanya untuk DEMO Frontend-only.
+            // Gunakan Base64 Encode dari "ServerKey" + ":" (tanda titik dua)
+            
+            const SANDBOX_SERVER_KEY = "Mid-server-wqu7iRWa5S_Jz8Z2HSsGplrb"; // <-- MASUKKAN SERVER KEY ANDA DISINI (SANDBOX)
+            
+            // Proxy CORS untuk melewati batasan browser saat memanggil API Midtrans langsung
+            const PROXY_URL = "https://cors-anywhere.herokuapp.com/"; 
+            const API_URL = "https://app.sandbox.midtrans.com/snap/v1/transactions";
+
+            // --- DOM ELEMENTS ---
+            const modal = document.getElementById('checkoutModal');
+            const closeBtn = document.querySelector('.close-modal');
+            const buyButtons = document.querySelectorAll('.btn-buy');
+            const paymentForm = document.getElementById('paymentForm');
+            const payBtn = document.getElementById('payButton');
+            const spinner = document.querySelector('.spinner');
+
+            // --- MODAL LOGIC ---
+            buyButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const name = btn.dataset.name;
+                    const price = btn.dataset.price;
+
+                    // Isi data ke modal
+                    document.getElementById('summaryName').textContent = name;
+                    document.getElementById('summaryPrice').textContent = "Rp " + parseInt(price).toLocaleString('id-ID');
+                    document.getElementById('grossAmount').value = price;
+                    document.getElementById('prodId').value = id;
+
+                    modal.classList.add('active');
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+
+            // --- PAYMENT LOGIC ---
+            paymentForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // 1. UI Loading State
+                payBtn.disabled = true;
+                payBtn.style.opacity = '0.7';
+                spinner.style.display = 'inline-block';
+
+                // 2. Prepare Data
+                const timestamp = new Date().getTime();
+                const orderId = `DE-${timestamp}`; // Format DE-Timestamp
+                const amount = parseInt(document.getElementById('grossAmount').value);
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const prodName = document.getElementById('summaryName').textContent;
+                const prodId = document.getElementById('prodId').value;
+
+                // Payload sesuai dokumentasi Midtrans
+                const payload = {
+                    transaction_details: {
+                        order_id: orderId,
+                        gross_amount: amount
+                    },
+                    credit_card: {
+                        secure: true
+                    },
+                    item_details: [{
+                        id: prodId,
+                        price: amount,
+                        quantity: 1,
+                        name: prodName.substring(0, 50) // Midtrans limit character
+                    }],
+                    customer_details: {
+                        email: email,
+                        phone: phone,
+                    }
+                };
+
+                try {
+                    // 3. Generate Auth Header (Basic Auth)
+                    // Hati-hati: Mengekspos Server Key di JS Client Sangat TIDAK AMAN untuk Production.
+                    const authString = btoa(SANDBOX_SERVER_KEY + ":");
+
+                    // 4. Fetch Request via Proxy
+                    const response = await fetch(PROXY_URL + API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Basic ' + authString
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // 5. Trigger Snap Popup
+                    if (data.token) {
+                        window.snap.pay(data.token, {
+                            onSuccess: function(result){
+                                alert("Pembayaran Berhasil!");
+                                modal.classList.remove('active');
+                                console.log(result);
+                            },
+                            onPending: function(result){
+                                alert("Menunggu Pembayaran!");
+                                console.log(result);
+                            },
+                            onError: function(result){
+                                alert("Pembayaran Gagal!");
+                                console.log(result);
+                            },
+                            onClose: function(){
+                                alert('Anda menutup popup tanpa menyelesaikan pembayaran');
+                            }
+                        });
+                    } else {
+                        alert("Gagal mendapatkan token transaksi.");
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert("Terjadi kesalahan koneksi atau konfigurasi Server Key (Cek Console). Pastikan CORS Proxy aktif.");
+                } finally {
+                    // Reset UI
+                    payBtn.disabled = false;
+                    payBtn.style.opacity = '1';
+                    spinner.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script
+    chatbot_id="69854c1a326c3cbe5429b65e"
+    data-type="bar"
+    src="https://app.thinkstack.ai/bot/thinkstackai-loader.min.js"
+></script>
+</body>
+</html>
